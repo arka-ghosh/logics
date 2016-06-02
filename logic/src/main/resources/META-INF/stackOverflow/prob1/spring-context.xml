@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd
+    http://www.springframework.org/schema/jee
+    http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+
+	<!-- Application Message Bundle -->
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>file:/nidata/apps/etc/profiles</value>
+				<value>WEB-INF/profiles</value>
+				<value>WEB-INF/configure</value>
+				<value>WEB-INF/sql</value>
+				<value>WEB-INF/strings</value>
+				<value>WEB-INF/configure_fs</value>
+			</list>
+		</property>
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="cacheSeconds">
+			<value>60</value>
+		</property>
+	</bean>
+
+	<bean id="msa"
+		class="org.springframework.context.support.MessageSourceAccessor">
+		<constructor-arg>
+			<ref bean="messageSource" />
+		</constructor-arg>
+	</bean>
+
+	<!-- ActiveMQ configuration (ActivityLog) -->
+
+	<bean id="alJmsFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL"
+			value="failover:(tcp://passport1.ni:61616,tcp://passport2.ni:61616)?timeout=1000" />
+	</bean>
+
+	<bean id="alJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref bean="alJmsFactory" />
+		</property>
+	</bean>
+
+	<bean id="alDestination" class="org.apache.activemq.command.ActiveMQTopic"
+		autowire="constructor">
+		<constructor-arg>
+			<value>activity_log</value>
+		</constructor-arg>
+	</bean>
+
+	<!-- <import resource="datasources.xml" /> <import resource="daos.xml" /> 
+		<import resource="profiles-config.xml" /> <bean id="rateLimitCleaner" class="bg.profiles.util.RateLimitCleaner"> 
+		<property name="rateLimitReg" ref="rateLimitReg" /> <property name="rateLimitEname" 
+		ref="rateLimitEname" /> <property name="rateLimitCaptcha" ref="rateLimitCaptcha" 
+		/> <property name="rateLimitRegCountries" ref="rateLimitRegCountries" /> 
+		<property name="rateLimitLogin" ref="rateLimitLogin" /> </bean> <bean id="rateLimitCleanerTask" 
+		class="org.springframework.scheduling.concurrent.ScheduledExecutorTask"> 
+		<property name="delay" value="600000" /> <property name="period" value="600000" 
+		/> <property name="fixedRate" value="false" /> <property name="runnable"> 
+		<ref bean="rateLimitCleaner" /> </property> </bean> <bean id="timerFactory" 
+		class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean"> 
+		<property name="scheduledExecutorTasks"> <list> <ref bean="rateLimitCleanerTask" 
+		/> </list> </property> </bean> <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/dataSource" 
+		expected-type="javax.sql.DataSource" /> -->
+</beans>
