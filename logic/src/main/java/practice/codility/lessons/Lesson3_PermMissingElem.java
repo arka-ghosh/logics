@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @since Jun 9, 2016
  * @version 1.0
  */
-public class Lessson3_PermMissingElem
+public class Lesson3_PermMissingElem
 {
 
 	/**
@@ -20,7 +20,7 @@ public class Lessson3_PermMissingElem
 	 */
 	public static void main(String[] args)
 	{
-		Lessson3_PermMissingElem lesson = new Lessson3_PermMissingElem();
+		Lesson3_PermMissingElem lesson = new Lesson3_PermMissingElem();
 		int[] A = { 2, 3, 1, 5 };
 		System.out.println(lesson.solution(A));
 	}
