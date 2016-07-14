@@ -1,22 +1,27 @@
 /**
- * In a Formula-1 challenge, there are n teams numbered 1 to n. Each team has a car and a driver. 
+ * In a Formula-1 challenge, there are n teams numbered 1 to n. Each team has a car and a
+ * driver.
  * Car’s specification are as follows:
- *– Top speed: (150 + 10 * i) km per hour
- *– Acceleration: (2 * i) meter per second square.
- *– Handling factor (hf) = 0.8
- *– Nitro : Increases the speed to double or top speed, whichever is less. Can be used only once.
- *
- *Here i is the team number.
- *The cars line up for the race. The start line for (i + 1)th car is 200 * i meters behind the ith car.
- *
- *All of them start at the same time and try to attain their top speed. A re-assessment of the positions
- *is done every 2 seconds(So even if the car has crossed the finish line in between, you’ll get to know
- *after 2 seconds). During this assessment, each driver checks if there is any car within 10 meters of his
- *car, his speed reduces to: hf * (speed at that moment). Also, if the driver notices that he is the last
- *one on the race, he uses ‘nitro’.
- *
- *Taking the number of teams and length of track as the input, Calculate the final speeds and the
- *corresponding completion times
+ * – Top speed: (150 + 10 * i) km per hour
+ * – Acceleration: (2 * i) meter per second square.
+ * – Handling factor (hf) = 0.8
+ * – Nitro : Increases the speed to double or top speed, whichever is less. Can be used
+ * only once.
+ * Here i is the team number.
+ * The cars line up for the race. The start line for (i + 1)th car is 200 * i meters
+ * behind the ith car.
+ * All of them start at the same time and try to attain their top speed. A re-assessment
+ * of the positions
+ * is done every 2 seconds(So even if the car has crossed the finish line in between,
+ * you’ll get to know
+ * after 2 seconds). During this assessment, each driver checks if there is any car within
+ * 10 meters of his
+ * car, his speed reduces to: hf * (speed at that moment). Also, if the driver notices
+ * that he is the last
+ * one on the race, he uses ‘nitro’.
+ * Taking the number of teams and length of track as the input, Calculate the final speeds
+ * and the
+ * corresponding completion times
  */
 package example.geeks.interview;
 
@@ -25,9 +30,9 @@ import java.util.Comparator;
 
 /**
  * @author Arka Ghosh
- *
  */
-public class GoogleInterView1 {
+public class GoogleInterView1
+{
 
 	private final long snapShotInterval = 2;
 	private final double handlingFactor = 0.8;
@@ -37,9 +42,10 @@ public class GoogleInterView1 {
 	 * Method to take command line arguments.
 	 * 
 	 * @param args
-	 *            - 1> Number of cars, 2> Track length
+	 *          - 1> Number of cars, 2> Track length
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 
 		int carCount = 0;
 		double trackLength = 0;
@@ -63,11 +69,12 @@ public class GoogleInterView1 {
 	 * Method to start the race and calculate the output
 	 * 
 	 * @param carCount
-	 *            - Number of cars
+	 *          - Number of cars
 	 * @param trackLength
-	 *            - Length of the Track
+	 *          - Length of the Track
 	 */
-	private void race(int carCount, double trackLength) {
+	private void race(int carCount, double trackLength)
+	{
 		// Create an array of cars first
 		Car[] cars = new Car[carCount];
 		for (int i = 0; i < cars.length; i++) {
@@ -90,18 +97,18 @@ public class GoogleInterView1 {
 	 * positions of cars.
 	 * 
 	 * @param cars
-	 *            - Array of Cars
+	 *          - Array of Cars
 	 * @param trackLength
-	 *            - Length of the track
+	 *          - Length of the track
 	 */
-	private void assessPositions(Car[] cars, double trackLength, int carCount) {
+	private void assessPositions(Car[] cars, double trackLength, int carCount)
+	{
 		for (Car car : cars) {
 			if (!car.isRaceCompleted()) {
 				/*
 				 * Calculate the distance traveled by a car using the below
 				 * formula: u = initial speed, f = acceleration, t = time
 				 * interval, s = distance traveled,
-				 * 
 				 * s = ut + (f(t^2))/2
 				 */
 				double distTravelled = (car.getSpeed() * getSnapShotInterval()) + (car.getAcceleration() * 4 / 2);
@@ -128,16 +135,15 @@ public class GoogleInterView1 {
 	 * Method to calculate the current speed of a car.
 	 * 
 	 * @param car
-	 *            - An instance of Car
+	 *          - An instance of Car
 	 */
-	private void getCurrentSpeed(Car car) {
+	private void getCurrentSpeed(Car car)
+	{
 		if (car.getSpeed() < car.getTopSpeed()) {
 			/*
 			 * Calculate the current of a car using the below formula:
-			 * 
 			 * v = current speed, u = initial speed, f = acceleration, t = time
 			 * interval.
-			 * 
 			 * v = u +ft
 			 */
 			double speed = car.getSpeed() + (car.getAcceleration() * getSnapShotInterval());
@@ -149,11 +155,12 @@ public class GoogleInterView1 {
 	 * Method to change the current speed of the car.
 	 * 
 	 * @param car
-	 *            - An instance of Car
+	 *          - An instance of Car
 	 * @param speed
-	 *            - Current speed of that car
+	 *          - Current speed of that car
 	 */
-	private void changeSpeed(Car car, double speed) {
+	private void changeSpeed(Car car, double speed)
+	{
 		if (speed >= car.getTopSpeed()) {
 			car.setSpeed(car.getTopSpeed());
 		} else {
@@ -166,16 +173,19 @@ public class GoogleInterView1 {
 	 * interval.
 	 * 
 	 * @param cars
-	 *            - Array of Cars.
+	 *          - Array of Cars.
 	 */
-	private void getCurrentPosition(Car[] cars, double trackLength, int carCount) {
+	private void getCurrentPosition(Car[] cars, double trackLength, int carCount)
+	{
 		/*
 		 * Define the comparator using which the sorting will take place. It
 		 * should compare the completion time and the distant from start line of
 		 * each car to evaluate the position.
 		 */
-		Comparator<GoogleInterView1.Car> comparator = new Comparator<GoogleInterView1.Car>() {
-			public int compare(Car o1, Car o2) {
+		Comparator<GoogleInterView1.Car> comparator = new Comparator<GoogleInterView1.Car>()
+		{
+			public int compare(Car o1, Car o2)
+			{
 				if (o1.getCompletionTime() < o2.getCompletionTime())
 					return -1;
 				else if (o1.getCompletionTime() > o2.getCompletionTime())
@@ -218,9 +228,10 @@ public class GoogleInterView1 {
 	 * Method to apply nitro to a car
 	 * 
 	 * @param car
-	 *            - An instance of Car
+	 *          - An instance of Car
 	 */
-	private void applyNitro(Car car) {
+	private void applyNitro(Car car)
+	{
 		if (!car.getNitroFlag()) {
 			double currentSpeed = car.getSpeed() * 2;
 			changeSpeed(car, currentSpeed);
@@ -232,9 +243,9 @@ public class GoogleInterView1 {
 	 * The inner class Car.
 	 * 
 	 * @author Arka Ghosh
-	 *
 	 */
-	public class Car {
+	public class Car
+	{
 		private int teamNumber;
 		private double topSpeed;
 		private double speed;
@@ -249,9 +260,10 @@ public class GoogleInterView1 {
 		 * Constructor to create a <code>Car</code> with team number.
 		 * 
 		 * @param teamNumber
-		 *            - Team Number
+		 *          - Team Number
 		 */
-		public Car(int teamNumber) {
+		public Car(int teamNumber)
+		{
 			this.setTeamNumber(teamNumber);
 			this.setTopSpeed((150 + 10 * teamNumber) * 5 / 18);
 			this.setAcceleration(2 * teamNumber);
@@ -262,145 +274,163 @@ public class GoogleInterView1 {
 		/**
 		 * @return the teamNumber
 		 */
-		public int getTeamNumber() {
+		public int getTeamNumber()
+		{
 			return teamNumber;
 		}
 
 		/**
 		 * @param teamNumber
-		 *            the teamNumber to set
+		 *          the teamNumber to set
 		 */
-		public void setTeamNumber(int teamNumber) {
+		public void setTeamNumber(int teamNumber)
+		{
 			this.teamNumber = teamNumber;
 		}
 
 		/**
 		 * @return the topSpeed
 		 */
-		public double getTopSpeed() {
+		public double getTopSpeed()
+		{
 			return topSpeed;
 		}
 
 		/**
 		 * @param topSpeed
-		 *            the topSpeed to set
+		 *          the topSpeed to set
 		 */
-		public void setTopSpeed(double topSpeed) {
+		public void setTopSpeed(double topSpeed)
+		{
 			this.topSpeed = topSpeed;
 		}
 
 		/**
 		 * @return the speed
 		 */
-		public double getSpeed() {
+		public double getSpeed()
+		{
 			return speed;
 		}
 
 		/**
 		 * @param speed
-		 *            the speed to set
+		 *          the speed to set
 		 */
-		public void setSpeed(double speed) {
+		public void setSpeed(double speed)
+		{
 			this.speed = speed;
 		}
 
 		/**
 		 * @return the acceleration
 		 */
-		public double getAcceleration() {
+		public double getAcceleration()
+		{
 			return acceleration;
 		}
 
 		/**
 		 * @param acceleration
-		 *            the acceleration to set
+		 *          the acceleration to set
 		 */
-		public void setAcceleration(double acceleration) {
+		public void setAcceleration(double acceleration)
+		{
 			this.acceleration = acceleration;
 		}
 
 		/**
 		 * @return the position
 		 */
-		public int getPosition() {
+		public int getPosition()
+		{
 			return position;
 		}
 
 		/**
 		 * @param position
-		 *            the position to set
+		 *          the position to set
 		 */
-		public void setPosition(int position) {
+		public void setPosition(int position)
+		{
 			this.position = position;
 		}
 
 		/**
 		 * @return the distantFromStartLine
 		 */
-		public double getDistantFromStartLine() {
+		public double getDistantFromStartLine()
+		{
 			return distantFromStartLine;
 		}
 
 		/**
 		 * @param distantFromStartLine
-		 *            the distantFromStartLine to set
+		 *          the distantFromStartLine to set
 		 */
-		public void setDistantFromStartLine(double distantFromStartLine) {
+		public void setDistantFromStartLine(double distantFromStartLine)
+		{
 			this.distantFromStartLine = distantFromStartLine;
 		}
 
 		/**
 		 * @return the nitroFlag
 		 */
-		public boolean getNitroFlag() {
+		public boolean getNitroFlag()
+		{
 			return nitroFlag;
 		}
 
 		/**
 		 * @param nitroFlag
-		 *            the nitroFlag to set
+		 *          the nitroFlag to set
 		 */
-		public void setNitroFlag(boolean nitroFlag) {
+		public void setNitroFlag(boolean nitroFlag)
+		{
 			this.nitroFlag = nitroFlag;
 		}
 
 		/**
 		 * @return the raceCompleted
 		 */
-		public boolean isRaceCompleted() {
+		public boolean isRaceCompleted()
+		{
 			return raceCompleted;
 		}
 
 		/**
 		 * @param raceCompleted
-		 *            the raceCompleted to set
+		 *          the raceCompleted to set
 		 */
-		public void setRaceCompleted(boolean raceCompleted) {
+		public void setRaceCompleted(boolean raceCompleted)
+		{
 			this.raceCompleted = raceCompleted;
 		}
 
 		/**
 		 * @return the completionTime
 		 */
-		public long getCompletionTime() {
+		public long getCompletionTime()
+		{
 			return completionTime;
 		}
 
 		/**
 		 * @param completionTime
-		 *            the completionTime to set
+		 *          the completionTime to set
 		 */
-		public void setCompletionTime(long completionTime) {
+		public void setCompletionTime(long completionTime)
+		{
 			this.completionTime = completionTime;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
-		public String toString() {
+		public String toString()
+		{
 			StringBuilder builder = new StringBuilder();
 			builder.append("Car [teamNumber=");
 			builder.append(teamNumber);
@@ -428,29 +458,33 @@ public class GoogleInterView1 {
 	/**
 	 * @return the finish
 	 */
-	public boolean isFinish() {
+	public boolean isFinish()
+	{
 		return finish;
 	}
 
 	/**
 	 * @param finish
-	 *            the finish to set
+	 *          the finish to set
 	 */
-	public void setFinish(boolean finish) {
+	public void setFinish(boolean finish)
+	{
 		this.finish = finish;
 	}
 
 	/**
 	 * @return the snapShotInterval
 	 */
-	public long getSnapShotInterval() {
+	public long getSnapShotInterval()
+	{
 		return snapShotInterval;
 	}
 
 	/**
 	 * @return the handlingFactor
 	 */
-	public double getHandlingFactor() {
+	public double getHandlingFactor()
+	{
 		return handlingFactor;
 	}
 }
